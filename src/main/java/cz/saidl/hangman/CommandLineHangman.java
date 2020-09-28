@@ -2,8 +2,14 @@ package cz.saidl.hangman;
 
 import java.util.Scanner;
 
+/*****************************************************************************************
+* Class responsible for game console interface.
+*/
 public class CommandLineHangman{
-
+    
+    /*************************************************************************************
+    * Realises one game (guessing one word).
+    */
     private static void oneWordGuess(){
         Hangman hangman = new Hangman();
         boolean wholeWordFound = false;

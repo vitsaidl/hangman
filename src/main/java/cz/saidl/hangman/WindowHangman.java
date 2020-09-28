@@ -4,12 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/*****************************************************************************************
+* Class responsible for game GUI.
+*/
 public class WindowHangman{
     String[] LETTERS_TO_CHOOSE = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
     Hangman hangman;
     JFrame jfrm;
     JPanel wordPanel;
     
+    /************************************************************************************
+    * Class initialization creates Swing frame. The window is created only once (even in cases
+    * when player restarts game).
+    */
     WindowHangman(){
         this.createHangman();
         
@@ -71,15 +78,27 @@ public class WindowHangman{
         jfrm.setVisible(true);
     }
     
+    /********************************************************************************
+    * Creates instance of game logic. Called at the beginning of game and when player
+    restarts the game.
+    */
     private void createHangman(){
         this.hangman = new Hangman();
     }
     
+    /********************************************************************************
+    * Restarts game by creating indirectly new Hangman instance and by redrawing part
+    * of interface with guessed letters.
+    */
     private void resetGame(){
         createHangman();
         maskedArrayToInterface();
     }
 
+    /*********************************************************************************
+    * Redraw part of interface with currently correctly guessed letters based on the
+    * content of Hangman instance.
+    */
     private void maskedArrayToInterface(){
         char[] maskedArray = this.hangman.getMaskedWordArray();
         this.wordPanel.removeAll();
