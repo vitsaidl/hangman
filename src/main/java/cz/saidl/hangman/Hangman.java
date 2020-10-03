@@ -1,9 +1,7 @@
 package cz.saidl.hangman;
 
 import java.util.Random;
-
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
@@ -45,13 +43,13 @@ public class Hangman{
     /***********************************************************************************
     * Chooses and returns one random word from file with list of words.
     * 
-    * @returns Word which will be guessed.
+    * @return Word which will be guessed.
     */
     private String provideRandomWord() throws IOException {
-        List<String> potentialWords = new ArrayList<String>();
+        List<String> potentialWords = new ArrayList<>();
         InputStream  wordsInputStream = getClass().getResourceAsStream ("/words_list.txt");
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(wordsInputStream))  ){
-            String row = null;
+            String row;
             while ((row = bufferedReader.readLine()) != null) {
                 potentialWords.add(row);
             }
@@ -67,7 +65,7 @@ public class Hangman{
     * in array maskedLetters is replaced by the guessed char.
     * 
     * @param letter Letter guessed by player.
-    * @returns Message whose string part is used by CLI/GUI.
+    * @return Message whose string part is used by CLI/GUI.
     */
     public MessageTuple checkAndFillLetter(char letter){
         boolean letterPresent = false;
@@ -79,16 +77,16 @@ public class Hangman{
                 this.maskedLetters[letterIndex]=letter;
             }
         }
-        if (letterPresent==true){
-            return new MessageTuple(letterPresent, "Searched word contains letter " + letter);
+        if (letterPresent){
+            return new MessageTuple(true, "Searched word contains letter " + letter);
         }
-        return new MessageTuple(letterPresent, "Searched word doesn't contain letter " + letter);
+        return new MessageTuple(false, "Searched word doesn't contain letter " + letter);
     }
     
     /********************************************************************************
     * Tests if all letters in searched word has been found.
     *
-    * @returns Returns true if arrays wordInLetters and maskedLetters contains same chars.
+    * @return Returns true if arrays wordInLetters and maskedLetters contains same chars.
     */
     public boolean wholeWordFound(){
         for (int letterIndex=0;letterIndex<this.wordInLetters.length;letterIndex++){
@@ -102,7 +100,7 @@ public class Hangman{
     /********************************************************************************
     * Gets number of players guesses.
     *
-    * @returns Number of guesses.
+    * @return Number of guesses.
     */
     public int getNumberOfTries(){
         return this.numberOfTries;
@@ -111,7 +109,7 @@ public class Hangman{
     /********************************************************************************
     * Gets maskedLetters aka array with currently correctly guessed letters.
     *
-    * @returns Array with currently correctly guessed letters.
+    * @return Array with currently correctly guessed letters.
     */
     public char[] getMaskedWordArray(){
         return this.maskedLetters;

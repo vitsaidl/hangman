@@ -2,13 +2,16 @@ package cz.saidl.hangman;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 /*****************************************************************************************
 * Class responsible for game GUI.
 */
 public class WindowHangman{
-    String[] LETTERS_TO_CHOOSE = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+    String[] LETTERS_TO_CHOOSE = {
+            "a","b","c","d","e","f","g","h",
+            "i","j","k","l","m","n","o","p",
+            "q","r","s","t","u","v","w","x","y","z"
+    };
     Hangman hangman;
     JFrame jfrm;
     JPanel wordPanel;
@@ -27,7 +30,7 @@ public class WindowHangman{
         jfrm_container.setLayout(new GridBagLayout());
         GridBagConstraints gridcon = new GridBagConstraints();
         
-        JComboBox letterChoiceBox = new JComboBox(LETTERS_TO_CHOOSE);
+        JComboBox<String> letterChoiceBox = new JComboBox<>(LETTERS_TO_CHOOSE);
         gridcon.gridx=0;
         gridcon.gridy=0;
         jfrm_container.add(letterChoiceBox, gridcon);
@@ -102,11 +105,16 @@ public class WindowHangman{
     private void maskedArrayToInterface(){
         char[] maskedArray = this.hangman.getMaskedWordArray();
         this.wordPanel.removeAll();
-        for (int i=0;i<maskedArray.length;i++){
-            JTextField wordField = new JTextField(String.valueOf(maskedArray[i]));
+        for (char maskedLetter: maskedArray){
+            JTextField wordField = new JTextField(String.valueOf(maskedLetter));
             wordField.setEditable(false);
-            this.wordPanel.add(wordField);           
+            this.wordPanel.add(wordField);
         }
+        //for (int i=0;i<maskedArray.length;i++){
+        //    JTextField wordField = new JTextField(String.valueOf(maskedArray[i]));
+        //    wordField.setEditable(false);
+        //    this.wordPanel.add(wordField);
+        //}
         this.wordPanel.revalidate();
         this.wordPanel.repaint();        
     }
