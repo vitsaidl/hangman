@@ -2,15 +2,21 @@ package cz.saidl.hangman;
 
 import java.util.Random;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /*********************************************************************************
 * Class Hangman contains game logic. 
 */
 public class Hangman{
-    private String searchedWord;
     private int numberOfTries;
     private char[] wordInLetters;
     private char[] maskedLetters;
-    private String[] potentialWords = {"nazdar", "ahoj", "konec"};
     private Random rand = new Random();
     
     /******************************************************************************
@@ -18,17 +24,42 @@ public class Hangman{
     * but in time it is filled by correctly guessed letters.
     */
     Hangman(){
-        String searchedWord = potentialWords[rand.nextInt(potentialWords.length)];
+        String searchedWord = "";
+        try {
+            searchedWord = this.provideRandomWord();
+        }catch(IOException exception) {
+            exception.printStackTrace();
+        }
         int searchedWordLength = searchedWord.length();
-        this.searchedWord = searchedWord;
+
         this.numberOfTries = 0;
         this.wordInLetters = new char[searchedWordLength];
         this.maskedLetters = new char[searchedWordLength];
         
         for (int letterIndex=0; letterIndex<searchedWordLength; letterIndex++){
-            wordInLetters[letterIndex] = this.searchedWord.charAt(letterIndex);
+            wordInLetters[letterIndex] = searchedWord.charAt(letterIndex);
             maskedLetters[letterIndex] = '_';
         }
+    }
+    
+    /***********************************************************************************
+    * Chooses and returns one random word from file with list of words.
+    * 
+    * @returns Word which will be guessed.
+    */
+    private String provideRandomWord() throws IOException {
+        List<String> potentialWords = new ArrayList<String>();
+        InputStream  wordsInputStream = getClass().getResourceAsStream ("/words_list.txt");
+        try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(wordsInputStream))  ){
+            String row = null;
+            while ((row = bufferedReader.readLine()) != null) {
+                potentialWords.add(row);
+            }
+        }
+        //catch (IOException exc) {
+        //    System.out.println("I/O error: " + exc);
+        //}
+        return potentialWords.get(rand.nextInt(potentialWords.size()));
     }
     
     /***********************************************************************************
@@ -77,9 +108,10 @@ public class Hangman{
         return this.numberOfTries;
     }
     
-    /*********************************************************************************
-    * Gets maskedLetters array (array with correctly guessed letters).
-    * @returns Correctly guessed letters.
+    /********************************************************************************
+    * Gets maskedLetters aka array with currently correctly guessed letters.
+    *
+    * @returns Array with currently correctly guessed letters.
     */
     public char[] getMaskedWordArray(){
         return this.maskedLetters;
