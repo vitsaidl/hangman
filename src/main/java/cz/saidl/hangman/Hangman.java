@@ -57,9 +57,6 @@ public class Hangman{
                 potentialWords.add(row);
             }
         }
-        //catch (IOException exc) {
-        //    System.out.println("I/O error: " + exc);
-        //}
         return potentialWords.get(rand.nextInt(potentialWords.size()));
     }
     
