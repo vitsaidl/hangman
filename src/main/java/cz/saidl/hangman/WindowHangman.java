@@ -66,6 +66,13 @@ public class WindowHangman{
             maskedArrayToInterface();
             messageArea.setText(message.getMessage());
             numberTriesArea.setText("Number of tries: " + hangman.getNumberOfTries());
+            if (this.hangman.wholeWordFound()){
+                JOptionPane.showMessageDialog(
+                    jfrm_container, 
+                    "The word has been found in " + hangman.getNumberOfTries() + " tries."
+                );
+                tryLetterButton.setEnabled(false);
+            }
         });
         
         JButton resetGameButton = new JButton("Reset game");
@@ -74,6 +81,7 @@ public class WindowHangman{
         jfrm_container.add(resetGameButton, gridcon);
         resetGameButton.addActionListener(event ->{
             resetGame();
+            tryLetterButton.setEnabled(true);
             messageArea.setText("Try to find the hidden word.");
             numberTriesArea.setText("Game has not started yet.");
         });

@@ -25,9 +25,12 @@ public class Hangman{
         String searchedWord = "";
         try {
             searchedWord = this.provideRandomWord();
-        }catch(IOException exception) {
+        }catch(IOException | NullPointerException exception) {
+            System.out.println("Problem - file with words for guessing hasn't been loaded. Game will be shutted down.");
             exception.printStackTrace();
+            System.exit(1);
         }
+
         int searchedWordLength = searchedWord.length();
 
         this.numberOfTries = 0;
@@ -45,7 +48,7 @@ public class Hangman{
     * 
     * @return Word which will be guessed.
     */
-    private String provideRandomWord() throws IOException {
+    private String provideRandomWord() throws IOException, NullPointerException {
         List<String> potentialWords = new ArrayList<>();
         InputStream  wordsInputStream = getClass().getResourceAsStream ("/words_list.txt");
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(wordsInputStream))  ){
