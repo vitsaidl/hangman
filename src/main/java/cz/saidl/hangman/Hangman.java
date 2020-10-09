@@ -17,6 +17,7 @@ public class Hangman{
     final private int MISSES_TO_LOOSE_GAME = 5;
     
     private String searchedWord = "";
+    private String wordHint = "";
     private char[] wordInLetters;
     private char[] maskedLetters;
     private Random rand = new Random();
@@ -28,7 +29,7 @@ public class Hangman{
     */
     Hangman(){
         try {
-            this.searchedWord = this.provideRandomWord();
+            this.provideRandomWord();
         }catch(IOException | NullPointerException exception) {
             System.out.println("Problem - file with words for guessing hasn't been loaded. Game will be shutted down.");
             exception.printStackTrace();
@@ -53,16 +54,21 @@ public class Hangman{
     * 
     * @return Word which will be guessed.
     */
-    private String provideRandomWord() throws IOException, NullPointerException {
+    private void provideRandomWord() throws IOException, NullPointerException {
         List<String> potentialWords = new ArrayList<>();
+        List<String> potentialHints = new ArrayList<>();
         InputStream  wordsInputStream = getClass().getResourceAsStream ("/words_list.txt");
         try(BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(wordsInputStream))  ){
             String row;
             while ((row = bufferedReader.readLine()) != null) {
-                potentialWords.add(row);
+                String[] processedRow = row.split("&"); 
+                potentialWords.add(processedRow[0]);
+                potentialHints.add(processedRow[1]);
             }
         }
-        return potentialWords.get(rand.nextInt(potentialWords.size()));
+        int wordIndex = rand.nextInt(potentialWords.size());
+        this.searchedWord = potentialWords.get(wordIndex);
+        this.wordHint = potentialHints.get(wordIndex);
     }
     
     /***********************************************************************************
@@ -131,12 +137,21 @@ public class Hangman{
     }
     
     /********************************************************************************
-    * Gets searched word in String (not array) form..
+    * Gets searched word in String (not array) form.
     *
     * @return Searched word.
     */
     public String getSearchedWord(){
         return this.searchedWord;
+    }
+    
+    /********************************************************************************
+    * Gets hint for searched word.
+    *
+    * @return Hint for earched word.
+    */
+    public String getWordHint(){
+        return this.wordHint;
     }
         
     /********************************************************************************

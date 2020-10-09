@@ -17,6 +17,7 @@ public class WindowHangman{
     JFrame jfrm;
     JPanel wordPanel;
     GallowsPanel gallowsPanel;
+    JLabel actualHintLabel;
     
     /************************************************************************************
     * Class initialization creates Swing frame. The window is created only once (even in cases
@@ -42,10 +43,20 @@ public class WindowHangman{
         gridcon.gridy=1;
         jfrm_container.add(tryLetterButton, gridcon);
         
+        JLabel wordHintLabel = new JLabel("Hint:");
+        gridcon.gridx=0;
+        gridcon.gridy=2;
+        jfrm_container.add(wordHintLabel, gridcon);   
+
+        this.actualHintLabel = new JLabel(this.hangman.getWordHint());
+        gridcon.gridx=0;
+        gridcon.gridy=3;
+        jfrm_container.add(this.actualHintLabel, gridcon);         
+        
         this.wordPanel = new JPanel();
         this.wordPanel.setLayout(new FlowLayout());
         gridcon.gridx=0;
-        gridcon.gridy=2;
+        gridcon.gridy=4;
         jfrm_container.add(this.wordPanel, gridcon);
         
         maskedArrayToInterface();
@@ -53,13 +64,13 @@ public class WindowHangman{
         JTextArea messageArea = new JTextArea("Try to find the hidden word.");
         messageArea.setEditable(false);
         gridcon.gridx=0;
-        gridcon.gridy=3;  
+        gridcon.gridy=5;  
         jfrm_container.add(messageArea, gridcon);    
 
         JTextArea numberTriesArea = new JTextArea("Game has not started yet.");
         numberTriesArea.setEditable(false);
         gridcon.gridx=0;
-        gridcon.gridy=4;  
+        gridcon.gridy=6;  
         jfrm_container.add(numberTriesArea, gridcon);           
 
         tryLetterButton.addActionListener(event ->{
@@ -90,7 +101,7 @@ public class WindowHangman{
         
         JButton resetGameButton = new JButton("Reset game");
         gridcon.gridx=0;
-        gridcon.gridy=5;
+        gridcon.gridy=7;
         jfrm_container.add(resetGameButton, gridcon);
         resetGameButton.addActionListener(event ->{
             resetGame();
@@ -101,7 +112,7 @@ public class WindowHangman{
         
         gallowsPanel = new GallowsPanel();
         gridcon.gridx=0;
-        gridcon.gridy=6;
+        gridcon.gridy=8;
         jfrm_container.add(gallowsPanel, gridcon);        
         
         jfrm.setVisible(true);
@@ -121,6 +132,7 @@ public class WindowHangman{
     */
     private void resetGame(){
         createHangman();
+        this.actualHintLabel.setText(this.hangman.getWordHint());
         maskedArrayToInterface();
     }
 

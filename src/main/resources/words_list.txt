@@ -1,20 +1,20 @@
-eternity
-snow
-rain
-water
-grass
-tree
-pidgeon
-castle
-tower
-battle
-ancient
-tomb
-door
-sword
-shield
-shadow
-cloak
-dagger
-snowflake
-icicle
+eternity&Time unit
+snow&Form of water
+rain&Attack from above
+water&The thing which will get everywhere
+grass&Carpet with color limitation
+tree&Part of nature
+pidgeon&Kind of bird
+castle&Type of building
+tower&Type of building
+battle&Special form of human communication
+ancient&Very old
+tomb&Resting place
+door&Part of building
+sword&What takes life
+shield&What saves life
+shadow&What is absent in total darkness
+cloak&To not be seen
+dagger&To end an argument
+snowflake&Diamond from above
+icicle&Dagger from above
