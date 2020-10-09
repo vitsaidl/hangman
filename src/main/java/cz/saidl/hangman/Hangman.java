@@ -13,32 +13,37 @@ import java.util.List;
 */
 public class Hangman{
     private int numberOfTries;
+    private int numberOfMisses;
+    final private int MISSES_TO_LOOSE_GAME = 5;
+    
+    private String searchedWord = "";
     private char[] wordInLetters;
     private char[] maskedLetters;
     private Random rand = new Random();
+ 
     
     /******************************************************************************
     * Game initialization. Array maskedLetters contains only _ at the beginning,
     * but in time it is filled by correctly guessed letters.
     */
     Hangman(){
-        String searchedWord = "";
         try {
-            searchedWord = this.provideRandomWord();
+            this.searchedWord = this.provideRandomWord();
         }catch(IOException | NullPointerException exception) {
             System.out.println("Problem - file with words for guessing hasn't been loaded. Game will be shutted down.");
             exception.printStackTrace();
             System.exit(1);
         }
 
-        int searchedWordLength = searchedWord.length();
+        int searchedWordLength = this.searchedWord.length();
 
         this.numberOfTries = 0;
+        this.numberOfMisses = 0;
         this.wordInLetters = new char[searchedWordLength];
         this.maskedLetters = new char[searchedWordLength];
         
         for (int letterIndex=0; letterIndex<searchedWordLength; letterIndex++){
-            wordInLetters[letterIndex] = searchedWord.charAt(letterIndex);
+            wordInLetters[letterIndex] = this.searchedWord.charAt(letterIndex);
             maskedLetters[letterIndex] = '_';
         }
     }
@@ -80,6 +85,7 @@ public class Hangman{
         if (letterPresent){
             return new MessageTuple(true, "Searched word contains letter " + letter);
         }
+        numberOfMisses++;
         return new MessageTuple(false, "Searched word doesn't contain letter " + letter);
     }
     
@@ -96,6 +102,15 @@ public class Hangman{
         }  
         return true;        
     }
+
+    /********************************************************************************
+    * Tests if game is lost due to reaching the misses threshold.
+    *
+    * @return Returns true number of player misses is higher than threshold value.
+    */    
+    public boolean isGameLost(){
+        return this.numberOfMisses >= MISSES_TO_LOOSE_GAME;
+    }
     
     /********************************************************************************
     * Gets number of players guesses.
@@ -106,6 +121,24 @@ public class Hangman{
         return this.numberOfTries;
     }
     
+    /********************************************************************************
+    * Gets number of players incorrect guesses.
+    *
+    * @return Number of guesses.
+    */
+    public int getNumberOfMisses(){
+        return this.numberOfMisses;
+    }
+    
+    /********************************************************************************
+    * Gets searched word in String (not array) form..
+    *
+    * @return Searched word.
+    */
+    public String getSearchedWord(){
+        return this.searchedWord;
+    }
+        
     /********************************************************************************
     * Gets maskedLetters aka array with currently correctly guessed letters.
     *

@@ -3,6 +3,7 @@ package cz.saidl.hangman;
 import javax.swing.*;
 import java.awt.*;
 
+
 /*****************************************************************************************
 * Class responsible for game GUI.
 */
@@ -15,6 +16,7 @@ public class WindowHangman{
     Hangman hangman;
     JFrame jfrm;
     JPanel wordPanel;
+    GallowsPanel gallowsPanel;
     
     /************************************************************************************
     * Class initialization creates Swing frame. The window is created only once (even in cases
@@ -69,9 +71,20 @@ public class WindowHangman{
             if (this.hangman.wholeWordFound()){
                 JOptionPane.showMessageDialog(
                     jfrm_container, 
-                    "The word has been found in " + hangman.getNumberOfTries() + " tries."
+                    "The word has been found in " + hangman.getNumberOfTries() + " tries.",
+                    "Player won",
+                    JOptionPane.INFORMATION_MESSAGE
                 );
                 tryLetterButton.setEnabled(false);
+            }
+            else if (this.hangman.isGameLost()){
+                JOptionPane.showMessageDialog(
+                    jfrm_container, 
+                    "The player wasn't able to guess word \"" + hangman.getSearchedWord() +"\" in " + hangman.getNumberOfTries() + " tries.",
+                    "Player lost",
+                    JOptionPane.INFORMATION_MESSAGE
+                );
+                tryLetterButton.setEnabled(false);             
             }
         });
         
@@ -85,6 +98,11 @@ public class WindowHangman{
             messageArea.setText("Try to find the hidden word.");
             numberTriesArea.setText("Game has not started yet.");
         });
+        
+        gallowsPanel = new GallowsPanel();
+        gridcon.gridx=0;
+        gridcon.gridy=6;
+        jfrm_container.add(gallowsPanel, gridcon);        
         
         jfrm.setVisible(true);
     }
@@ -107,8 +125,7 @@ public class WindowHangman{
     }
 
     /*********************************************************************************
-    * Redraw part of interface with currently correctly guessed letters based on the
-    * content of Hangman instance.
+    * Redraw parts of interface - letters and gallows area.
     */
     private void maskedArrayToInterface(){
         char[] maskedArray = this.hangman.getMaskedWordArray();
@@ -118,13 +135,14 @@ public class WindowHangman{
             wordField.setEditable(false);
             this.wordPanel.add(wordField);
         }
-        //for (int i=0;i<maskedArray.length;i++){
-        //    JTextField wordField = new JTextField(String.valueOf(maskedArray[i]));
-        //    wordField.setEditable(false);
-        //    this.wordPanel.add(wordField);
-        //}
         this.wordPanel.revalidate();
-        this.wordPanel.repaint();        
+        this.wordPanel.repaint();  
+        
+        try{
+            this.gallowsPanel.setGallowsValue(this.hangman.getNumberOfMisses());
+            this.gallowsPanel.revalidate();
+            this.gallowsPanel.repaint(); 
+        }catch(NullPointerException exception) {}
     }
     
     public static void main(String[] args){
