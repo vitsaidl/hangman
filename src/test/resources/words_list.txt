@@ -1,1 +1,1 @@
-slovo
+slovo&some hint

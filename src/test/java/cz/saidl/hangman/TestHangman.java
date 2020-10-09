@@ -17,10 +17,10 @@ public class TestHangman{
     }
     
     @Test
-    void testMaskedLettersArrayLargerThanOne(){
+    void testMaskedLettersArrayLengthEqualsWordLength(){
         char[] wordArray = hangman.getMaskedWordArray();
         int wordArrayLength = wordArray.length;
-        assertTrue(wordArrayLength>1, "Array hangman.getMaskedWordArray has length <=1");  
+        assertEquals(5, wordArrayLength);  
     }
 
     @Test
@@ -92,6 +92,16 @@ public class TestHangman{
     }
     
     @Test
+    void testAfterMissingLetterNumberOfMissesIncremented(){
+        int originalNumberOfMisses = hangman.getNumberOfMisses();
+        char chosenLetter = 'x';
+        hangman.checkAndFillLetter(chosenLetter); 
+        int updatedNumberOfMisses = hangman.getNumberOfMisses();
+        int difference = updatedNumberOfMisses - originalNumberOfMisses;
+        assertEquals(1, difference);        
+    }
+    
+    @Test
     void testAfterCorrectGuessLetterNumberOfTriesIncremented(){
         int originalNumberOfTries = hangman.getNumberOfTries();
         char chosenLetter = 'o';
@@ -99,6 +109,16 @@ public class TestHangman{
         int updatedNumberOfTries = hangman.getNumberOfTries();
         int difference = updatedNumberOfTries - originalNumberOfTries;
         assertEquals(1, difference);        
+    }
+    
+    @Test
+    void testAfterCorrectGuessLetterNumberOfMissesNotIncremented(){
+        int originalNumberOfMisses = hangman.getNumberOfMisses();
+        char chosenLetter = 'o';
+        hangman.checkAndFillLetter(chosenLetter); 
+        int updatedNumberOfMisses = hangman.getNumberOfMisses();
+        int difference = updatedNumberOfMisses - originalNumberOfMisses;
+        assertEquals(0, difference);        
     }
     
     @Test
@@ -116,5 +136,21 @@ public class TestHangman{
         assertTrue(hangman.wholeWordFound());        
     }
 
+    @Test
+    void testForNumberOfMissesUnderThresholdGameNotLost(){
+        hangman.checkAndFillLetter('x');
+        assertFalse(hangman.isGameLost());        
+    }
+    
+    @Test
+    void testForNumberOfMissesOverThresholdGameLost(){
+        hangman.checkAndFillLetter('x');
+        hangman.checkAndFillLetter('x');
+        hangman.checkAndFillLetter('x');
+        hangman.checkAndFillLetter('x');
+        hangman.checkAndFillLetter('x');
+        hangman.checkAndFillLetter('x');
+        assertTrue(hangman.isGameLost());        
+    }
     
 }
