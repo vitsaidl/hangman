@@ -50,9 +50,8 @@ public class Hangman{
     }
     
     /***********************************************************************************
-    * Chooses and returns one random word from file with list of words.
-    * 
-    * @return Word which will be guessed.
+    * Chooses and sets one random word from file with list of words 'searchedWord'
+    * instance variable. Hints are read in the same fashion.
     */
     private void provideRandomWord() throws IOException, NullPointerException {
         List<String> potentialWords = new ArrayList<>();

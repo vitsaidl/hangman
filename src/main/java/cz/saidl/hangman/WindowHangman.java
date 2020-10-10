@@ -26,7 +26,7 @@ public class WindowHangman{
     WindowHangman(){
         this.createHangman();
         
-        this.jfrm = new JFrame("A hangman app");
+        this.jfrm = new JFrame("Hangman");
         this.jfrm.setSize(640,480);
         this.jfrm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container jfrm_container = this.jfrm.getContentPane();

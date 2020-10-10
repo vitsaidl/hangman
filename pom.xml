@@ -6,7 +6,7 @@
 
   <groupId>cz.saidl.hangman</groupId>
   <artifactId>hangman</artifactId>
-  <version>0.2</version>
+  <version>0.4</version>
 
   <name>hangman</name>
 

@@ -35,7 +35,7 @@ public class TestHangman{
         char chosenLetter = 's';
         MessageTuple message = hangman.checkAndFillLetter(chosenLetter);
         assertTrue(message.getFlag());
-        assertTrue(message.getMessage().equals("Searched word contains letter s"));
+        assertEquals("Searched word contains letter s", message.getMessage());
     }
     
     @Test
@@ -52,7 +52,7 @@ public class TestHangman{
         char chosenLetter = 'o';
         MessageTuple message = hangman.checkAndFillLetter(chosenLetter);
         assertTrue(message.getFlag());
-        assertTrue(message.getMessage().equals("Searched word contains letter o"));
+        assertEquals("Searched word contains letter o", message.getMessage());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class TestHangman{
         char chosenLetter = 'x';
         MessageTuple message = hangman.checkAndFillLetter(chosenLetter);
         assertFalse(message.getFlag());
-        assertTrue(message.getMessage().equals("Searched word doesn't contain letter x"));
+        assertEquals("Searched word doesn't contain letter x", message.getMessage());
     }
     
     @Test

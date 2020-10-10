@@ -29,7 +29,7 @@ class GallowsPanel extends JPanel {
     /******************************************************************************************
     * Paints gallows. Number of its painted pars depends on number of players bad guesses.
     *
-    * @param graphics Drawing onject.
+    * @param graphics Drawing object.
     */
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);   
